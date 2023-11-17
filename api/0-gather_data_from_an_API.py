@@ -9,18 +9,12 @@ def gather_data_from_api(user_id):
     url = 'https://jsonplaceholder.typicode.com'
     todo_url = f"{url}/todos"
     employee_url = f"{url}/users/{user_id}"
-
-    users_response = requests.get(employee_url)
-
-    employee_data = users_response.json()
-    name = employee_data.get("name")
-
-    todo_response = requests.get(todo_url, params={"userId": user_id})
-
-    todo_data = todo_response.json()
-    fin_tasks = [task["title"] for task in todo_data if task["completed"]]
+    users_response = requests.get(employee_url).json()
+    name = users_response.get("name")
+    todo_response = requests.get(todo_url, params={"userId": user_id}).json()
+    fin_tasks = [task["title"] for task in todo_response if task["completed"]]
     completed_tasks = len(fin_tasks)
-    total_tasks = len(todo_data)
+    total_tasks = len(todo_response)
 
     print("Employee {} is done with tasks({}/{}):"
           .format(name, completed_tasks, total_tasks))
