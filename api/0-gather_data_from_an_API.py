@@ -26,4 +26,4 @@ def gather_data_from_api(user_id):
 
 if __name__ == "__main__":
     user_id = int(argv[1])
-    gather_data_from_api(user_id)
+    gather_data_from_api(int(user_id))
