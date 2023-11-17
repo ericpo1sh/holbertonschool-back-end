@@ -1,29 +1,30 @@
 #!/usr/bin/python3
-""" Gathering data from an API """
+""" Export To CSV Module """
+import csv
 import requests
 from sys import argv
 
 
-if __name__ == "__main__":
+def export_to_csv(user_id):
+    """ Gathering data from api """
     url = 'https://jsonplaceholder.typicode.com'
-    user_id = argv[1]
-    todo_url = f"{url}/todos"
+    todo_url = f"{url}/users/{user_id}/todos"
     employee_url = f"{url}/users/{user_id}"
+    users_response = requests.get(employee_url)
+    todo_response = requests.get(todo_url)
+    todo_data = todo_response.json()
+    employee_data = users_response.json()
+    name = employee_data.get("username")
+    tasks = {task["title"]: task['completed'] for task in todo_data}
 
-    response = requests.get(employee_url)
+    with open(f'{user_id}.csv', 'w') as newfile:
+        file_writer = csv.writer(newfile, quoting=csv.QUOTE_ALL)
+        [
+            file_writer.writerow([user_id, name, done_status, task])
+            for task, done_status in tasks.items()
+        ]
 
-    if response.status_code == 200:
-        employee_data = response.json()
-        name = employee_data["name"]
 
-        response = requests.get(todo_url, params={"userId": user_id})
-
-        todo_data = response.json()
-        fin_tasks = [task["title"] for task in todo_data if task["completed"]]
-        completed_tasks = len(fin_tasks)
-        total_tasks = len(todo_data)
-
-        print("Employee {} is done with tasks({}/{}):"
-              .format(name, completed_tasks, total_tasks))
-        for title in fin_tasks:
-            print(f"\t{title}")
+if __name__ == "__main__":
+    user_id = int(argv[1])
+    export_to_csv(user_id)
