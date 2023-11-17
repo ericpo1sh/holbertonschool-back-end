@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     if response.status_code == 200:
         employee_data = response.json()
-        name = employee_data["name"]
+        name = employee_data.get("name")
 
         response = requests.get(todo_url, params={"userId": user_id})
 
