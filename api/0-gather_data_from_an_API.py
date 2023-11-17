@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Gather Data Module """
+""" Gather Data Module"""
 import requests
 from sys import argv
 
