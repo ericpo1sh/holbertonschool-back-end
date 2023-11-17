@@ -23,11 +23,11 @@ def gather_data_from_api(user_id):
     total_tasks = len(todo_data)
 
     print("Employee {} is done with tasks({}/{}):"
-            .format(name, completed_tasks, total_tasks))
+          .format(name, completed_tasks, total_tasks))
     for title in fin_tasks:
         print(f"\t {title}")
 
 
 if __name__ == "__main__":
-    user_id = argv[1]
+    user_id = int(argv[1])
     gather_data_from_api(user_id)
