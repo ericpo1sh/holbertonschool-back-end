@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-""" Gathering data from an API """
+""" Gather Data Module """
 import requests
 from sys import argv
 
 
-if __name__ == "__main__":
+def gather_data_from_api(user_id):
+    """ Gathering data from api """
     url = 'https://jsonplaceholder.typicode.com'
-    user_id = argv[1]
     todo_url = f"{url}/todos"
     employee_url = f"{url}/users/{user_id}"
 
@@ -27,3 +27,8 @@ if __name__ == "__main__":
               .format(name, completed_tasks, total_tasks))
         for title in fin_tasks:
             print(f"\t {title}")
+
+
+if __name__ == "__main__":
+    user_id = argv[1]
+    gather_data_from_api(user_id)
